@@ -1,0 +1,17 @@
+@media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { margin: 0; padding: 0; }
+            .claim-stub { 
+                width: 8.5in; 
+                height: 5.5in; 
+                margin: 0; 
+                padding: 20px;
+                box-sizing: border-box;
+            }
+        }
+        .print-only { display: none; }
+        .signature-pad {
+            border: 2px dashed #cbd5e1;
+            cursor: crosshair;
+        }
