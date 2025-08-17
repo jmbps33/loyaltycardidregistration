@@ -348,6 +348,57 @@
         function detectGender() {
             const firstName = document.getElementById('firstName').value.toUpperCase().trim();
             const genderInput = document.getElementById('gender');
+            
+            // Common Filipino male names
+            const maleNames = [
+                'AARON', 'ABEL', 'ABRAHAM', 'ADAM', 'ADRIAN', 'ALAN', 'ALBERT', 'ALBERTO', 'ALEJANDRO', 'ALEX', 'ALEXANDER', 'ALFONSO', 'ALFRED', 'ALFREDO', 'ALLAN', 'ALLEN', 'ALVIN', 'AMADO', 'ANDRES', 'ANGEL', 'ANGELO', 'ANTHONY', 'ANTONIO', 'ARMANDO', 'ARNOLD', 'ARTHUR', 'ARTURO', 'AUGUSTO', 'AURELIO',
+                'BENJAMIN', 'BERNARD', 'BOBBY', 'BRIAN', 'BRUNO',
+                'CARLOS', 'CESAR', 'CHRISTIAN', 'CHRISTOPHER', 'CLARENCE', 'CORNELIO', 'CRISTIAN',
+                'DANIEL', 'DANTE', 'DAVID', 'DENNIS', 'DIEGO', 'DOMINGO', 'DOMINIC', 'DOUGLAS',
+                'EDGAR', 'EDUARDO', 'EDWARD', 'EDWIN', 'EFREN', 'ELMER', 'EMMANUEL', 'ENRIQUE', 'ERIC', 'ERNESTO', 'EUGENE', 'EUGENIO', 'EUSEBIO',
+                'FABIAN', 'FEDERICO', 'FELIX', 'FERDINAND', 'FERNANDO', 'FRANCISCO', 'FRANK', 'FRANKLIN', 'FRED', 'FREDERICK',
+                'GABRIEL', 'GARY', 'GEORGE', 'GERALD', 'GERARDO', 'GILBERT', 'GILBERTO', 'GREGORIO', 'GUILLERMO', 'GUSTAVO',
+                'HAROLD', 'HARRY', 'HECTOR', 'HENRY', 'HERBERT', 'HERMINIO', 'HILARIO', 'HOMER', 'HORACIO', 'HUGO',
+                'IGNACIO', 'ISIDRO', 'IVAN',
+                'JAIME', 'JAMES', 'JASON', 'JAVIER', 'JEFFREY', 'JEROME', 'JESUS', 'JIMMY', 'JOAQUIN', 'JOEL', 'JOHN', 'JOHNNY', 'JONATHAN', 'JORGE', 'JOSE', 'JOSEPH', 'JOSHUA', 'JUAN', 'JULIAN', 'JULIO', 'JUSTIN',
+                'KENNETH', 'KEVIN',
+                'LARRY', 'LAWRENCE', 'LEO', 'LEONARDO', 'LEOPOLDO', 'LINO', 'LORENZO', 'LOUIS', 'LUCAS', 'LUIS',
+                'MANUEL', 'MARCELO', 'MARCO', 'MARCOS', 'MARIO', 'MARK', 'MARTIN', 'MARVIN', 'MATTHEW', 'MAURICIO', 'MAXIMO', 'MICHAEL', 'MIGUEL', 'MOISES',
+                'NAPOLEON', 'NESTOR', 'NICHOLAS', 'NICOLAS', 'NOEL', 'NORMAN',
+                'OCTAVIO', 'OLIVER', 'OMAR', 'ORLANDO', 'OSCAR',
+                'PABLO', 'PATRICIO', 'PATRICK', 'PAUL', 'PEDRO', 'PETER', 'PHILIP', 'PRIMITIVO',
+                'RAFAEL', 'RAMON', 'RAUL', 'RAY', 'RAYMOND', 'REYNALDO', 'RICARDO', 'RICHARD', 'ROBERT', 'ROBERTO', 'RODOLFO', 'RODRIGO', 'ROGELIO', 'ROLAND', 'ROLANDO', 'ROMAN', 'ROMEO', 'RONALD', 'ROY', 'RUBEN', 'RUDOLPH', 'RUDY',
+                'SALVADOR', 'SAMUEL', 'SANTIAGO', 'SANTOS', 'SERGIO', 'STEPHEN', 'STEVE', 'STEVEN',
+                'TEODORO', 'THOMAS', 'TIMOTHY', 'TOMAS',
+                'VICENTE', 'VICTOR', 'VINCENT', 'VIRGILIO',
+                'WALTER', 'WILFREDO', 'WILLIAM', 'WILSON'
+            ];
+            
+            // Common Filipino female names
+            const femaleNames = [
+                'ABIGAIL', 'ADELAIDA', 'ADRIANA', 'AGNES', 'AILEEN', 'ALBERTA', 'ALEJANDRA', 'ALEXANDRA', 'ALICE', 'ALICIA', 'ALMA', 'AMANDA', 'ANA', 'ANDREA', 'ANGELA', 'ANGELICA', 'ANITA', 'ANNA', 'ANTONIA', 'ARACELI', 'AURORA',
+                'BARBARA', 'BEATRIZ', 'BERNADETTE', 'BERTHA', 'BETTY', 'BRENDA',
+                'CARMEN', 'CAROLINA', 'CATALINA', 'CATHERINE', 'CECILIA', 'CELIA', 'CHRISTINA', 'CLARA', 'CLAUDIA', 'CONCEPCION', 'CONSUELO', 'CRISTINA', 'CRUZ',
+                'DAISY', 'DANIELA', 'DEBORAH', 'DELIA', 'DIANA', 'DOLORES', 'DONNA', 'DORA', 'DORIS', 'DOROTHY',
+                'EDITH', 'ELENA', 'ELIZABETH', 'ELVIRA', 'EMILY', 'EMMA', 'ESPERANZA', 'ESTELA', 'ESTHER', 'EUGENIA', 'EVA', 'EVELYN',
+                'FATIMA', 'FELICIA', 'FERNANDA', 'FLORA', 'FRANCISCA', 'FUENCISLA',
+                'GABRIELA', 'GEORGIA', 'GERTRUDE', 'GLADYS', 'GLORIA', 'GRACE', 'GRACIELA', 'GUADALUPE',
+                'HELEN', 'HELENA', 'HILDA',
+                'IGNACIA', 'INES', 'IRENE', 'IRIS', 'ISABEL', 'ISADORA',
+                'JACINTA', 'JANET', 'JASMINE', 'JENNIFER', 'JESSICA', 'JOAN', 'JOANNA', 'JOSEFA', 'JOSEFINA', 'JOSEPHINE', 'JUANA', 'JUDITH', 'JULIA', 'JULIANA', 'JULIE',
+                'KAREN', 'KATHERINE', 'KIMBERLY',
+                'LAURA', 'LETICIA', 'LILIA', 'LINDA', 'LOURDES', 'LUCIA', 'LUISA', 'LUZ',
+                'MAGDALENA', 'MARCELA', 'MARGARITA', 'MARIA', 'MARIANA', 'MARIE', 'MARINA', 'MARISOL', 'MARTHA', 'MARY', 'MERCEDES', 'MICHELLE', 'MILAGROS', 'MONICA',
+                'NANCY', 'NATALIA', 'NICOLE', 'NORA', 'NORMA',
+                'OFELIA', 'OLGA',
+                'PATRICIA', 'PAULA', 'PILAR', 'PRISCILLA',
+                'RACHEL', 'RAMONA', 'RAQUEL', 'REBECCA', 'REGINA', 'REMEDIOS', 'RITA', 'ROSA', 'ROSALIA', 'ROSARIO', 'ROSEMARY', 'RUTH',
+                'SANDRA', 'SARA', 'SILVIA', 'SOFIA', 'SOLEDAD', 'SONIA', 'STELLA', 'SUSAN', 'SUSANA',
+                'TERESA', 'THERESA',
+                'VALENTINA', 'VANESSA', 'VERONICA', 'VICTORIA', 'VIRGINIA', 'VIVIAN',
+                'YOLANDA', 'YVONNE'
+            ];
+            
             if (firstName) {
                 if (maleNames.includes(firstName)) {
                     genderInput.value = 'MALE';
@@ -732,5 +783,5 @@
         }
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'970658f9f313fd2b',t:'MTc1NTQwNDA5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9706bb88324591b1',t:'MTc1NTQwODEzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
