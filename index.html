@@ -294,10 +294,10 @@
                         <div class="border-l-2 border-black pl-8">
                             <div class="text-lg font-bold mb-2">NOTICE:</div>
                             <div class="text-sm font-bold leading-tight mb-3">
-                                THIS STUB MUST BE PRESENTED TO CLAIM YOUR LOYALTY CARD. KEEP THIS STUB SAFE AND BRING VALID IDENTIFICATION WHEN COLLECTING YOUR CARD. STUB IS NON-TRANSFERABLE AND EXPIRES 30 DAYS FROM ISSUE DATE.
+                                THIS STUB MUST BE PRESENTED TO CLAIM YOUR LOYALTY CARD. KEEP THIS STUB SAFE AND BRING VALID IDENTIFICATION WHEN CLAIM YOUR CARD. STUB IS NON-TRANSFERABLE AND EXPIRES 35 DAYS FROM ISSUE DATE.
                             </div>
                             <div class="text-sm font-bold leading-tight border-t border-black pt-2">
-                                NOTE: YOUR LOYALTY CARD ID WILL BE READY IN 2-3 MONTHS FROM REGISTRATION DATE.
+                                NOTE: YOUR LOYALTY CARD ID WILL BE READY IN 2-3 MONTHS FROM REGISTRATION DATE AND YOU WILL EMAIL WHEN YOUR CARD ID IS DONE AND READY TO CLAIM.
                             </div>
                         </div>
                     </div>
@@ -349,55 +349,6 @@
             const firstName = document.getElementById('firstName').value.toUpperCase().trim();
             const genderInput = document.getElementById('gender');
             
-            // Common Filipino male names
-            const maleNames = [
-                'AARON', 'ABEL', 'ABRAHAM', 'ADAM', 'ADRIAN', 'ALAN', 'ALBERT', 'ALBERTO', 'ALEJANDRO', 'ALEX', 'ALEXANDER', 'ALFONSO', 'ALFRED', 'ALFREDO', 'ALLAN', 'ALLEN', 'ALVIN', 'AMADO', 'ANDRES', 'ANGEL', 'ANGELO', 'ANTHONY', 'ANTONIO', 'ARMANDO', 'ARNOLD', 'ARTHUR', 'ARTURO', 'AUGUSTO', 'AURELIO',
-                'BENJAMIN', 'BERNARD', 'BOBBY', 'BRIAN', 'BRUNO',
-                'CARLOS', 'CESAR', 'CHRISTIAN', 'CHRISTOPHER', 'CLARENCE', 'CORNELIO', 'CRISTIAN',
-                'DANIEL', 'DANTE', 'DAVID', 'DENNIS', 'DIEGO', 'DOMINGO', 'DOMINIC', 'DOUGLAS',
-                'EDGAR', 'EDUARDO', 'EDWARD', 'EDWIN', 'EFREN', 'ELMER', 'EMMANUEL', 'ENRIQUE', 'ERIC', 'ERNESTO', 'EUGENE', 'EUGENIO', 'EUSEBIO',
-                'FABIAN', 'FEDERICO', 'FELIX', 'FERDINAND', 'FERNANDO', 'FRANCISCO', 'FRANK', 'FRANKLIN', 'FRED', 'FREDERICK',
-                'GABRIEL', 'GARY', 'GEORGE', 'GERALD', 'GERARDO', 'GILBERT', 'GILBERTO', 'GREGORIO', 'GUILLERMO', 'GUSTAVO',
-                'HAROLD', 'HARRY', 'HECTOR', 'HENRY', 'HERBERT', 'HERMINIO', 'HILARIO', 'HOMER', 'HORACIO', 'HUGO',
-                'IGNACIO', 'ISIDRO', 'IVAN',
-                'JAIME', 'JAMES', 'JASON', 'JAVIER', 'JEFFREY', 'JEROME', 'JESUS', 'JIMMY', 'JOAQUIN', 'JOEL', 'JOHN', 'JOHNNY', 'JONATHAN', 'JORGE', 'JOSE', 'JOSEPH', 'JOSHUA', 'JUAN', 'JULIAN', 'JULIO', 'JUSTIN',
-                'KENNETH', 'KEVIN',
-                'LARRY', 'LAWRENCE', 'LEO', 'LEONARDO', 'LEOPOLDO', 'LINO', 'LORENZO', 'LOUIS', 'LUCAS', 'LUIS',
-                'MANUEL', 'MARCELO', 'MARCO', 'MARCOS', 'MARIO', 'MARK', 'MARTIN', 'MARVIN', 'MATTHEW', 'MAURICIO', 'MAXIMO', 'MICHAEL', 'MIGUEL', 'MOISES',
-                'NAPOLEON', 'NESTOR', 'NICHOLAS', 'NICOLAS', 'NOEL', 'NORMAN',
-                'OCTAVIO', 'OLIVER', 'OMAR', 'ORLANDO', 'OSCAR',
-                'PABLO', 'PATRICIO', 'PATRICK', 'PAUL', 'PEDRO', 'PETER', 'PHILIP', 'PRIMITIVO',
-                'RAFAEL', 'RAMON', 'RAUL', 'RAY', 'RAYMOND', 'REYNALDO', 'RICARDO', 'RICHARD', 'ROBERT', 'ROBERTO', 'RODOLFO', 'RODRIGO', 'ROGELIO', 'ROLAND', 'ROLANDO', 'ROMAN', 'ROMEO', 'RONALD', 'ROY', 'RUBEN', 'RUDOLPH', 'RUDY',
-                'SALVADOR', 'SAMUEL', 'SANTIAGO', 'SANTOS', 'SERGIO', 'STEPHEN', 'STEVE', 'STEVEN',
-                'TEODORO', 'THOMAS', 'TIMOTHY', 'TOMAS',
-                'VICENTE', 'VICTOR', 'VINCENT', 'VIRGILIO',
-                'WALTER', 'WILFREDO', 'WILLIAM', 'WILSON'
-            ];
-            
-            // Common Filipino female names
-            const femaleNames = [
-                'ABIGAIL', 'ADELAIDA', 'ADRIANA', 'AGNES', 'AILEEN', 'ALBERTA', 'ALEJANDRA', 'ALEXANDRA', 'ALICE', 'ALICIA', 'ALMA', 'AMANDA', 'ANA', 'ANDREA', 'ANGELA', 'ANGELICA', 'ANITA', 'ANNA', 'ANTONIA', 'ARACELI', 'AURORA',
-                'BARBARA', 'BEATRIZ', 'BERNADETTE', 'BERTHA', 'BETTY', 'BRENDA',
-                'CARMEN', 'CAROLINA', 'CATALINA', 'CATHERINE', 'CECILIA', 'CELIA', 'CHRISTINA', 'CLARA', 'CLAUDIA', 'CONCEPCION', 'CONSUELO', 'CRISTINA', 'CRUZ',
-                'DAISY', 'DANIELA', 'DEBORAH', 'DELIA', 'DIANA', 'DOLORES', 'DONNA', 'DORA', 'DORIS', 'DOROTHY',
-                'EDITH', 'ELENA', 'ELIZABETH', 'ELVIRA', 'EMILY', 'EMMA', 'ESPERANZA', 'ESTELA', 'ESTHER', 'EUGENIA', 'EVA', 'EVELYN',
-                'FATIMA', 'FELICIA', 'FERNANDA', 'FLORA', 'FRANCISCA', 'FUENCISLA',
-                'GABRIELA', 'GEORGIA', 'GERTRUDE', 'GLADYS', 'GLORIA', 'GRACE', 'GRACIELA', 'GUADALUPE',
-                'HELEN', 'HELENA', 'HILDA',
-                'IGNACIA', 'INES', 'IRENE', 'IRIS', 'ISABEL', 'ISADORA',
-                'JACINTA', 'JANET', 'JASMINE', 'JENNIFER', 'JESSICA', 'JOAN', 'JOANNA', 'JOSEFA', 'JOSEFINA', 'JOSEPHINE', 'JUANA', 'JUDITH', 'JULIA', 'JULIANA', 'JULIE',
-                'KAREN', 'KATHERINE', 'KIMBERLY',
-                'LAURA', 'LETICIA', 'LILIA', 'LINDA', 'LOURDES', 'LUCIA', 'LUISA', 'LUZ',
-                'MAGDALENA', 'MARCELA', 'MARGARITA', 'MARIA', 'MARIANA', 'MARIE', 'MARINA', 'MARISOL', 'MARTHA', 'MARY', 'MERCEDES', 'MICHELLE', 'MILAGROS', 'MONICA',
-                'NANCY', 'NATALIA', 'NICOLE', 'NORA', 'NORMA',
-                'OFELIA', 'OLGA',
-                'PATRICIA', 'PAULA', 'PILAR', 'PRISCILLA',
-                'RACHEL', 'RAMONA', 'RAQUEL', 'REBECCA', 'REGINA', 'REMEDIOS', 'RITA', 'ROSA', 'ROSALIA', 'ROSARIO', 'ROSEMARY', 'RUTH',
-                'SANDRA', 'SARA', 'SILVIA', 'SOFIA', 'SOLEDAD', 'SONIA', 'STELLA', 'SUSAN', 'SUSANA',
-                'TERESA', 'THERESA',
-                'VALENTINA', 'VANESSA', 'VERONICA', 'VICTORIA', 'VIRGINIA', 'VIVIAN',
-                'YOLANDA', 'YVONNE'
-            ];
             
             if (firstName) {
                 if (maleNames.includes(firstName)) {
