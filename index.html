@@ -5,7 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loyalty Card Registration System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { margin: 0; padding: 0; }
+            .claim-stub { 
+                width: 8.5in; 
+                height: 5.5in; 
+                margin: 0; 
+                padding: 20px;
+                box-sizing: border-box;
+            }
+        }
+        .print-only { display: none; }
+        .signature-pad {
+            border: 2px dashed #cbd5e1;
+            cursor: crosshair;
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
     
@@ -30,9 +48,13 @@
                                 <tr class="bg-gray-50">
                                     <th class="border border-gray-300 px-4 py-2 text-left">Claim Stub #</th>
                                     <th class="border border-gray-300 px-4 py-2 text-left">Name</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Middle Name</th>
                                     <th class="border border-gray-300 px-4 py-2 text-left">Suffix</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">DOB</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Gender</th>
                                     <th class="border border-gray-300 px-4 py-2 text-left">Email</th>
                                     <th class="border border-gray-300 px-4 py-2 text-left">Phone</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Address</th>
                                     <th class="border border-gray-300 px-4 py-2 text-left">Photo</th>
                                     <th class="border border-gray-300 px-4 py-2 text-left">Signature</th>
                                     <th class="border border-gray-300 px-4 py-2 text-left">Status</th>
@@ -41,7 +63,7 @@
                             </thead>
                             <tbody id="applicationsBody">
                                 <tr>
-                                    <td colspan="9" class="border border-gray-300 px-4 py-8 text-center text-gray-500">
+                                    <td colspan="13" class="border border-gray-300 px-4 py-8 text-center text-gray-500">
                                         No applications yet. Complete a registration to see it appear here.
                                     </td>
                                 </tr>
@@ -55,6 +77,23 @@
 
     <!-- Registration Form -->
     <div id="registrationForm" class="container mx-auto px-4 py-8">
+        <!-- Data Privacy Act Notice -->
+        <div class="max-w-2xl mx-auto mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg shadow-sm">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-yellow-800">Data Privacy Act Notice</h3>
+                    <div class="mt-2 text-sm text-yellow-700">
+                        <p>By proceeding with this registration, you acknowledge that your personal information will be collected, processed, and stored in accordance with the <strong>Data Privacy Act of 2012 (Republic Act No. 10173)</strong>. Your data will be used solely for loyalty card registration and management purposes. We are committed to protecting your privacy and ensuring the security of your personal information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
             <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
                 <div class="flex justify-between items-center">
@@ -68,38 +107,81 @@
                     <div id="step4-indicator" class="flex-1 h-2 bg-blue-300 rounded"></div>
                 </div>
             </div>
-           
+
             <!-- Step 1: Details -->
             <div id="step1" class="p-6">
                 <h2 class="text-xl font-semibold mb-6 text-gray-800">STEP 1: DETAILS</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                        <input type="text" id="firstName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                    </div>
-                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Middle Name</label>
-                        <input type="text" id="middleName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">FIRST NAME</label>
+                        <input type="text" id="firstName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase(); detectGender()" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                        <input type="text" id="lastName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">MIDDLE NAME</label>
+                        <input type="text" id="middleName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Suffix (Optional)</label>
-                        <input type="text" id="suffix" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Jr., Sr., III, etc.">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">LAST NAME</label>
+                        <input type="text" id="lastName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">SUFFIX (OPTIONAL)</label>
+                        <input type="text" id="suffix" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase" style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()" placeholder="JR., SR., III, ETC.">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">DATE OF BIRTH</label>
+                        <input type="date" id="dateOfBirth" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">GENDER</label>
+                        <select id="gender" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <option value="">AUTOMATICALLY DETECTED FROM NAME</option>
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                            <option value="OTHER">OTHER</option>
+                            <option value="PREFER NOT TO SAY">PREFER NOT TO SAY</option>
+                        </select>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">EMAIL</label>
                         <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">PHONE NUMBER</label>
                         <input type="tel" id="phone" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">BARANGAY</label>
+                        <select id="barangay" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="updateZipCode()" required>
+                            <option value="">SELECT BARANGAY</option>
+                            <option value="BARANGAY BAGONG SILANG" data-zip="4215">BARANGAY BAGONG SILANG</option>
+                            <option value="BARANGAY BALIBAGO" data-zip="4215">BARANGAY BALIBAGO</option>
+                            <option value="BARANGAY BALITOC" data-zip="4215">BARANGAY BALITOC</option>
+                            <option value="BARANGAY BIGA" data-zip="4215">BARANGAY BIGA</option>
+                            <option value="BARANGAY BUCAL" data-zip="4215">BARANGAY BUCAL</option>
+                            <option value="BARANGAY CARLOSA" data-zip="4215">BARANGAY CARLOSA</option>
+                            <option value="BARANGAY ENCARNACION" data-zip="4215">BARANGAY ENCARNACION</option>
+                            <option value="BARANGAY GULOD" data-zip="4215">BARANGAY GULOD</option>
+                            <option value="BARANGAY HUKAY" data-zip="4215">BARANGAY HUKAY</option>
+                            <option value="BARANGAY LUCSUHIN" data-zip="4215">BARANGAY LUCSUHIN</option>
+                            <option value="BARANGAY POBLACION 1" data-zip="4215">BARANGAY POBLACION 1</option>
+                            <option value="BARANGAY POBLACION 2" data-zip="4215">BARANGAY POBLACION 2</option>
+                            <option value="BARANGAY POBLACION 3" data-zip="4215">BARANGAY POBLACION 3</option>
+                            <option value="BARANGAY REAL" data-zip="4215">BARANGAY REAL</option>
+                            <option value="BARANGAY SAMBUNGAN" data-zip="4215">BARANGAY SAMBUNGAN</option>
+                            <option value="BARANGAY SAN ROQUE" data-zip="4215">BARANGAY SAN ROQUE</option>
+                            <option value="BARANGAY SANTA ANA" data-zip="4215">BARANGAY SANTA ANA</option>
+                            <option value="BARANGAY SUCOL" data-zip="4215">BARANGAY SUCOL</option>
+                            <option value="BARANGAY TANAGAN" data-zip="4215">BARANGAY TANAGAN</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">MUNICIPALITY</label>
+                        <input type="text" id="municipality" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent" value="CALATAGAN, BATANGAS" readonly>
+                    </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                        <textarea id="address" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required></textarea>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ZIP CODE</label>
+                        <input type="text" id="zipcode" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly placeholder="AUTOMATICALLY GENERATED">
                     </div>
                 </div>
                 <button onclick="nextStep(2)" class="mt-6 w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200 font-medium">Next: Photo</button>
@@ -107,7 +189,22 @@
 
             <!-- Step 2: Photo -->
             <div id="step2" class="p-6 hidden">
-                <h2 class="text-xl font-semibold mb-6 text-gray-800">STEP 2: PHOTO(Send first your 1x1 picture with white background on JMB Printing Services Facebook Page)</h2>
+                <h2 class="text-xl font-semibold mb-6 text-gray-800">STEP 2: PHOTO</h2>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700 font-medium">
+                                <strong>IMPORTANT:</strong> Send first the 1x1 Picture with White background on 
+                                <a href="https://web.facebook.com/profile.php?id=" target="_blank" class="underline hover:text-blue-900">https://web.facebook.com/profile.php?id=</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <div class="text-center">
                     <div id="photoPreview" class="w-48 h-48 mx-auto border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center mb-4 bg-gray-50">
                         <div class="text-gray-500">
@@ -174,6 +271,10 @@
         <div class="claim-stub bg-white border-4 border-black mx-auto" style="width: 8.5in; height: 5.5in; padding: 20px;">
             <div class="h-full flex flex-col justify-between">
                 <div class="text-center border-b-2 border-black pb-4">
+                    <div class="flex justify-center items-center mb-3 space-x-4">
+                        <img src="https://i.imgur.com/ym8PsZB.jpg" alt="Company Logo 1" class="h-16 w-auto object-contain">
+                        <img src="https://i.imgur.com/Ao7MvDe.png" alt="Company Logo 2" class="h-16 w-auto object-contain">
+                    </div>
                     <h1 class="text-4xl font-black mb-2">LOYALTY CARD CLAIM STUB</h1>
                     <div class="text-2xl font-bold">CLAIM STUB #: <span id="stubNumber" class="text-red-600"></span></div>
                 </div>
@@ -192,10 +293,16 @@
                         </div>
                         <div class="border-l-2 border-black pl-8">
                             <div class="text-lg font-bold mb-2">NOTICE:</div>
-                            <div class="text-sm font-bold leading-tight">
-                                THIS STUB MUST BE PRESENTED TO CLAIM YOUR LOYALTY CARD ID. KEEP THIS STUB SAFE AND BRING VALID ID WHEN CLAIM YOUR CARD. STUB IS NON-TRANSFERABLE AND EXPIRES 35 DAYS FROM ISSUE DATE.
-                                I WILL EMAIL YOU WHEN YOU RECEIVED YOUR LOYALTY CARD ID
+                            <div class="text-sm font-bold leading-tight mb-3">
+                                THIS STUB MUST BE PRESENTED TO CLAIM YOUR LOYALTY CARD. KEEP THIS STUB SAFE AND BRING VALID IDENTIFICATION WHEN COLLECTING YOUR CARD. STUB IS NON-TRANSFERABLE AND EXPIRES 30 DAYS FROM ISSUE DATE.
                             </div>
+                            <div class="text-sm font-bold leading-tight border-t border-black pt-2">
+                                NOTE: YOUR LOYALTY CARD ID WILL BE READY IN 2-3 MONTHS FROM REGISTRATION DATE.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="border-t-2 border-black pt-4 text-center">
                     <div class="text-lg font-bold">ISSUE DATE: <span id="issueDate"></span></div>
                 </div>
@@ -203,6 +310,478 @@
         </div>
     </div>
 
-    <script src="scripts.js"></script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9701791b85a2933e',t:'MTc1NTM1Mjk4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    <script>
+        let currentStep = 1;
+        let applications = JSON.parse(localStorage.getItem('loyaltyApplications')) || [];
+        let currentApplication = {};
+        let isDrawing = false;
+        let canvas, ctx;
+
+        // Initialize signature canvas and load applications
+        document.addEventListener('DOMContentLoaded', function() {
+            canvas = document.getElementById('signatureCanvas');
+            ctx = canvas.getContext('2d');
+            
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+
+        });
+
+        function updateZipCode() {
+            const barangaySelect = document.getElementById('barangay');
+            const zipcodeInput = document.getElementById('zipcode');
+            
+            // Always set zip code to 4215 for Calatagan
+            if (barangaySelect.value) {
+                zipcodeInput.value = '4215';
+            }
+        }
+
+        function detectGender() {
+            const firstName = document.getElementById('firstName').value.toUpperCase().trim();
+            const genderInput = document.getElementById('gender');
+            
+            // Common Filipino male names
+            const maleNames = [
+                'AARON', 'ABEL', 'ABRAHAM', 'ADAM', 'ADRIAN', 'ALAN', 'ALBERT', 'ALBERTO', 'ALEJANDRO', 'ALEX', 'ALEXANDER', 'ALFONSO', 'ALFRED', 'ALFREDO', 'ALLAN', 'ALLEN', 'ALVIN', 'AMADO', 'ANDRES', 'ANGEL', 'ANGELO', 'ANTHONY', 'ANTONIO', 'ARMANDO', 'ARNOLD', 'ARTHUR', 'ARTURO', 'AUGUSTO', 'AURELIO',
+                'BENJAMIN', 'BERNARD', 'BOBBY', 'BRIAN', 'BRUNO',
+                'CARLOS', 'CESAR', 'CHRISTIAN', 'CHRISTOPHER', 'CLARENCE', 'CORNELIO', 'CRISTIAN',
+                'DANIEL', 'DANTE', 'DAVID', 'DENNIS', 'DIEGO', 'DOMINGO', 'DOMINIC', 'DOUGLAS',
+                'EDGAR', 'EDUARDO', 'EDWARD', 'EDWIN', 'EFREN', 'ELMER', 'EMMANUEL', 'ENRIQUE', 'ERIC', 'ERNESTO', 'EUGENE', 'EUGENIO', 'EUSEBIO',
+                'FABIAN', 'FEDERICO', 'FELIX', 'FERDINAND', 'FERNANDO', 'FRANCISCO', 'FRANK', 'FRANKLIN', 'FRED', 'FREDERICK',
+                'GABRIEL', 'GARY', 'GEORGE', 'GERALD', 'GERARDO', 'GILBERT', 'GILBERTO', 'GREGORIO', 'GUILLERMO', 'GUSTAVO',
+                'HAROLD', 'HARRY', 'HECTOR', 'HENRY', 'HERBERT', 'HERMINIO', 'HILARIO', 'HOMER', 'HORACIO', 'HUGO',
+                'IGNACIO', 'ISIDRO', 'IVAN',
+                'JAIME', 'JAMES', 'JASON', 'JAVIER', 'JEFFREY', 'JEROME', 'JESUS', 'JIMMY', 'JOAQUIN', 'JOEL', 'JOHN', 'JOHNNY', 'JONATHAN', 'JORGE', 'JOSE', 'JOSEPH', 'JOSHUA', 'JUAN', 'JULIAN', 'JULIO', 'JUSTIN',
+                'KENNETH', 'KEVIN',
+                'LARRY', 'LAWRENCE', 'LEO', 'LEONARDO', 'LEOPOLDO', 'LINO', 'LORENZO', 'LOUIS', 'LUCAS', 'LUIS',
+                'MANUEL', 'MARCELO', 'MARCO', 'MARCOS', 'MARIO', 'MARK', 'MARTIN', 'MARVIN', 'MATTHEW', 'MAURICIO', 'MAXIMO', 'MICHAEL', 'MIGUEL', 'MOISES',
+                'NAPOLEON', 'NESTOR', 'NICHOLAS', 'NICOLAS', 'NOEL', 'NORMAN',
+                'OCTAVIO', 'OLIVER', 'OMAR', 'ORLANDO', 'OSCAR',
+                'PABLO', 'PATRICIO', 'PATRICK', 'PAUL', 'PEDRO', 'PETER', 'PHILIP', 'PRIMITIVO',
+                'RAFAEL', 'RAMON', 'RAUL', 'RAY', 'RAYMOND', 'REYNALDO', 'RICARDO', 'RICHARD', 'ROBERT', 'ROBERTO', 'RODOLFO', 'RODRIGO', 'ROGELIO', 'ROLAND', 'ROLANDO', 'ROMAN', 'ROMEO', 'RONALD', 'ROY', 'RUBEN', 'RUDOLPH', 'RUDY',
+                'SALVADOR', 'SAMUEL', 'SANTIAGO', 'SANTOS', 'SERGIO', 'STEPHEN', 'STEVE', 'STEVEN',
+                'TEODORO', 'THOMAS', 'TIMOTHY', 'TOMAS',
+                'VICENTE', 'VICTOR', 'VINCENT', 'VIRGILIO',
+                'WALTER', 'WILFREDO', 'WILLIAM', 'WILSON'
+            ];
+            
+            // Common Filipino female names
+            const femaleNames = [
+                'ABIGAIL', 'ADELAIDA', 'ADRIANA', 'AGNES', 'AILEEN', 'ALBERTA', 'ALEJANDRA', 'ALEXANDRA', 'ALICE', 'ALICIA', 'ALMA', 'AMANDA', 'ANA', 'ANDREA', 'ANGELA', 'ANGELICA', 'ANITA', 'ANNA', 'ANTONIA', 'ARACELI', 'AURORA',
+                'BARBARA', 'BEATRIZ', 'BERNADETTE', 'BERTHA', 'BETTY', 'BRENDA',
+                'CARMEN', 'CAROLINA', 'CATALINA', 'CATHERINE', 'CECILIA', 'CELIA', 'CHRISTINA', 'CLARA', 'CLAUDIA', 'CONCEPCION', 'CONSUELO', 'CRISTINA', 'CRUZ',
+                'DAISY', 'DANIELA', 'DEBORAH', 'DELIA', 'DIANA', 'DOLORES', 'DONNA', 'DORA', 'DORIS', 'DOROTHY',
+                'EDITH', 'ELENA', 'ELIZABETH', 'ELVIRA', 'EMILY', 'EMMA', 'ESPERANZA', 'ESTELA', 'ESTHER', 'EUGENIA', 'EVA', 'EVELYN',
+                'FATIMA', 'FELICIA', 'FERNANDA', 'FLORA', 'FRANCISCA', 'FUENCISLA',
+                'GABRIELA', 'GEORGIA', 'GERTRUDE', 'GLADYS', 'GLORIA', 'GRACE', 'GRACIELA', 'GUADALUPE',
+                'HELEN', 'HELENA', 'HILDA',
+                'IGNACIA', 'INES', 'IRENE', 'IRIS', 'ISABEL', 'ISADORA',
+                'JACINTA', 'JANET', 'JASMINE', 'JENNIFER', 'JESSICA', 'JOAN', 'JOANNA', 'JOSEFA', 'JOSEFINA', 'JOSEPHINE', 'JUANA', 'JUDITH', 'JULIA', 'JULIANA', 'JULIE',
+                'KAREN', 'KATHERINE', 'KIMBERLY',
+                'LAURA', 'LETICIA', 'LILIA', 'LINDA', 'LOURDES', 'LUCIA', 'LUISA', 'LUZ',
+                'MAGDALENA', 'MARCELA', 'MARGARITA', 'MARIA', 'MARIANA', 'MARIE', 'MARINA', 'MARISOL', 'MARTHA', 'MARY', 'MERCEDES', 'MICHELLE', 'MILAGROS', 'MONICA',
+                'NANCY', 'NATALIA', 'NICOLE', 'NORA', 'NORMA',
+                'OFELIA', 'OLGA',
+                'PATRICIA', 'PAULA', 'PILAR', 'PRISCILLA',
+                'RACHEL', 'RAMONA', 'RAQUEL', 'REBECCA', 'REGINA', 'REMEDIOS', 'RITA', 'ROSA', 'ROSALIA', 'ROSARIO', 'ROSEMARY', 'RUTH',
+                'SANDRA', 'SARA', 'SILVIA', 'SOFIA', 'SOLEDAD', 'SONIA', 'STELLA', 'SUSAN', 'SUSANA',
+                'TERESA', 'THERESA',
+                'VALENTINA', 'VANESSA', 'VERONICA', 'VICTORIA', 'VIRGINIA', 'VIVIAN',
+                'YOLANDA', 'YVONNE'
+            ];
+            
+            if (firstName) {
+                if (maleNames.includes(firstName)) {
+                    genderInput.value = 'MALE';
+                } else if (femaleNames.includes(firstName)) {
+                    genderInput.value = 'FEMALE';
+                } else {
+                    genderInput.value = 'NAME NOT RECOGNIZED - PLEASE SELECT';
+                }
+            } else {
+                genderInput.value = '';
+            }
+        }
+
+        function nextStep(step) {
+            if (step > currentStep && !validateCurrentStep()) {
+                return;
+            }
+            
+            // Hide current step
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            document.getElementById(`step${currentStep}-indicator`).classList.remove('bg-white');
+            document.getElementById(`step${currentStep}-indicator`).classList.add('bg-blue-300');
+            
+            // Show new step
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            document.getElementById(`step${currentStep}-indicator`).classList.remove('bg-blue-300');
+            document.getElementById(`step${currentStep}-indicator`).classList.add('bg-white');
+            
+            if (step === 4) {
+                updateReviewInfo();
+            }
+        }
+
+        function validateCurrentStep() {
+            if (currentStep === 1) {
+                const required = ['firstName', 'lastName', 'dateOfBirth', 'gender', 'email', 'phone', 'barangay'];
+                for (let field of required) {
+                    if (!document.getElementById(field).value.trim()) {
+                        alert('Please fill in all required fields.');
+                        return false;
+                    }
+                }
+            } else if (currentStep === 2) {
+                if (!currentApplication.photo) {
+                    alert('Please upload a photo.');
+                    return false;
+                }
+            } else if (currentStep === 3) {
+                if (!currentApplication.signature) {
+                    alert('Please provide your signature.');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentApplication.photo = e.target.result;
+                    const preview = document.getElementById('photoPreview');
+                    preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover rounded-lg">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function stopDrawing() {
+            if (isDrawing) {
+                isDrawing = false;
+                currentApplication.signature = canvas.toDataURL();
+            }
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                            e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            currentApplication.signature = null;
+        }
+
+        function updateReviewInfo() {
+            const firstName = document.getElementById('firstName').value;
+            const middleName = document.getElementById('middleName').value;
+            const lastName = document.getElementById('lastName').value;
+            const suffixValue = document.getElementById('suffix').value;
+            
+            let fullName = firstName;
+            if (middleName) fullName += ` ${middleName}`;
+            fullName += ` ${lastName}`;
+            if (suffixValue) fullName += ` ${suffixValue}`;
+            
+            const barangay = document.getElementById('barangay').value;
+            const municipality = document.getElementById('municipality').value;
+            const zipcode = document.getElementById('zipcode').value;
+            const fullAddress = `${barangay}, ${municipality} ${zipcode}`;
+            
+            const info = `
+                <div><strong>Complete Name:</strong> ${fullName}</div>
+                <div><strong>Date of Birth:</strong> ${document.getElementById('dateOfBirth').value}</div>
+                <div><strong>Gender:</strong> ${document.getElementById('gender').value}</div>
+                <div><strong>Email:</strong> ${document.getElementById('email').value}</div>
+                <div><strong>Phone:</strong> ${document.getElementById('phone').value}</div>
+                <div><strong>Address:</strong> ${fullAddress}</div>
+                <div><strong>Photo:</strong> ${currentApplication.photo ? 'Uploaded' : 'Not uploaded'}</div>
+                <div><strong>Signature:</strong> ${currentApplication.signature ? 'Provided' : 'Not provided'}</div>
+            `;
+            document.getElementById('reviewInfo').innerHTML = info;
+        }
+
+        function submitRegistration() {
+            if (!validateCurrentStep()) return;
+            
+            // Generate claim stub number
+            const stubNumber = 'CS' + Date.now().toString().slice(-8);
+            const issueDate = new Date().toLocaleDateString();
+            
+            // Collect all data
+            const barangay = document.getElementById('barangay').value;
+            const municipality = 'CALATAGAN, BATANGAS';
+            const zipcode = '4215';
+            const fullAddress = `${barangay}, ${municipality} ${zipcode}`;
+            
+            const application = {
+                stubNumber: stubNumber,
+                firstName: document.getElementById('firstName').value,
+                middleName: document.getElementById('middleName').value,
+                lastName: document.getElementById('lastName').value,
+                suffix: document.getElementById('suffix').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                gender: document.getElementById('gender').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                barangay: barangay,
+                municipality: municipality,
+                zipcode: zipcode,
+                address: fullAddress,
+                photo: currentApplication.photo,
+                signature: currentApplication.signature,
+                issueDate: issueDate,
+                status: 'NOT CLAIMED'
+            };
+            
+            // Save to localStorage
+            applications.push(application);
+            localStorage.setItem('loyaltyApplications', JSON.stringify(applications));
+            
+            // Generate claim stub
+            generateClaimStub(application);
+            
+            // Show claim stub
+            document.getElementById('registrationForm').classList.add('hidden');
+            document.getElementById('claimStub').classList.remove('hidden');
+        }
+
+        function generateClaimStub(application) {
+            document.getElementById('stubNumber').textContent = application.stubNumber.toUpperCase();
+            
+            let fullName = application.firstName.toUpperCase();
+            if (application.middleName) fullName += ` ${application.middleName.toUpperCase()}`;
+            fullName += ` ${application.lastName.toUpperCase()}`;
+            if (application.suffix) fullName += ` ${application.suffix.toUpperCase()}`;
+            
+            document.getElementById('stubName').textContent = fullName;
+            document.getElementById('stubAddress').textContent = application.address.toUpperCase();
+            document.getElementById('issueDate').textContent = application.issueDate.toUpperCase();
+        }
+
+        function printStub() {
+            window.print();
+        }
+
+        function downloadStub() {
+            // Create a new window with just the stub content
+            const stubContent = document.querySelector('.claim-stub').outerHTML;
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Loyalty Card Claim Stub</title>
+                    <style>
+                        body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+                        .claim-stub { width: 8.5in; height: 5.5in; }
+                    </style>
+                </head>
+                <body>
+                    ${stubContent}
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+            setTimeout(() => {
+                newWindow.print();
+                newWindow.close();
+            }, 500);
+        }
+
+        function backToMain() {
+            document.getElementById('claimStub').classList.add('hidden');
+            document.getElementById('registrationForm').classList.remove('hidden');
+            
+            // Reset form
+            resetForm();
+        }
+
+        function showAdminPortal() {
+            document.getElementById('registrationForm').classList.add('hidden');
+            document.getElementById('adminPortal').classList.remove('hidden');
+            loadApplications();
+        }
+
+        function showRegistrationForm() {
+            document.getElementById('adminPortal').classList.add('hidden');
+            document.getElementById('registrationForm').classList.remove('hidden');
+        }
+
+        function resetForm() {
+            currentStep = 1;
+            currentApplication = {};
+            document.querySelectorAll('input, textarea').forEach(input => input.value = '');
+            document.getElementById('photoPreview').innerHTML = `
+                <div class="text-gray-500">
+                    <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    <p>Upload Photo</p>
+                </div>
+            `;
+            clearSignature();
+            
+            // Reset step indicators
+            document.querySelectorAll('[id$="-indicator"]').forEach(indicator => {
+                indicator.classList.remove('bg-white');
+                indicator.classList.add('bg-blue-300');
+            });
+            document.getElementById('step1-indicator').classList.add('bg-white');
+            document.getElementById('step1-indicator').classList.remove('bg-blue-300');
+            
+            // Show step 1
+            document.querySelectorAll('[id^="step"]').forEach(step => {
+                if (!step.id.includes('indicator')) {
+                    step.classList.add('hidden');
+                }
+            });
+            document.getElementById('step1').classList.remove('hidden');
+        }
+
+        function loadApplications() {
+            const tbody = document.getElementById('applicationsBody');
+            tbody.innerHTML = '';
+            
+            if (applications.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="13" class="border border-gray-300 px-4 py-8 text-center text-gray-500">
+                            No applications yet. Complete a registration to see it appear here.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            applications.forEach((app, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="border border-gray-300 px-4 py-2">${app.stubNumber}</td>
+                    <td class="border border-gray-300 px-4 py-2">${app.firstName} ${app.lastName}</td>
+                    <td class="border border-gray-300 px-4 py-2">${app.middleName || '-'}</td>
+                    <td class="border border-gray-300 px-4 py-2">${app.suffix || '-'}</td>
+                    <td class="border border-gray-300 px-4 py-2">${app.dateOfBirth}</td>
+                    <td class="border border-gray-300 px-4 py-2">${app.gender}</td>
+                    <td class="border border-gray-300 px-4 py-2">${app.email}</td>
+                    <td class="border border-gray-300 px-4 py-2">${app.phone}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-sm">${app.address}</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <img src="${app.photo}" class="w-16 h-16 object-cover rounded">
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <img src="${app.signature}" class="w-20 h-10 object-contain border rounded">
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <span class="px-2 py-1 rounded text-sm font-medium ${app.status === 'CLAIMED' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${app.status}
+                        </span>
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <button onclick="toggleStatus(${index})" class="px-3 py-1 rounded text-sm font-medium ${app.status === 'CLAIMED' ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-green-500 hover:bg-green-600 text-white'} transition duration-200 mb-1">
+                            ${app.status === 'CLAIMED' ? 'Mark Not Claimed' : 'Mark Claimed'}
+                        </button>
+                        <br>
+                        <button onclick="printApplication(${index})" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm font-medium transition duration-200 mb-1">
+                            Print Stub
+                        </button>
+                        <br>
+                        <button onclick="deleteApplication(${index})" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm font-medium transition duration-200">
+                            Delete
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function toggleStatus(index) {
+            applications[index].status = applications[index].status === 'CLAIMED' ? 'NOT CLAIMED' : 'CLAIMED';
+            localStorage.setItem('loyaltyApplications', JSON.stringify(applications));
+            loadApplications();
+        }
+
+        function printApplication(index) {
+            const app = applications[index];
+            generateClaimStub(app);
+            
+            // Create print window
+            const stubContent = document.querySelector('.claim-stub').outerHTML;
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Loyalty Card Claim Stub - ${app.stubNumber}</title>
+                    <style>
+                        body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+                        .claim-stub { width: 8.5in; height: 5.5in; }
+                        @media print {
+                            body { margin: 0; padding: 0; }
+                            .claim-stub { margin: 0; padding: 20px; box-sizing: border-box; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${stubContent}
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+            setTimeout(() => {
+                newWindow.print();
+                newWindow.close();
+            }, 500);
+        }
+
+        function deleteApplication(index) {
+            const app = applications[index];
+            if (confirm(`Are you sure you want to delete the application for ${app.firstName} ${app.lastName}? This action cannot be undone.`)) {
+                applications.splice(index, 1);
+                localStorage.setItem('loyaltyApplications', JSON.stringify(applications));
+                loadApplications();
+            }
+        }
+
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'970658f9f313fd2b',t:'MTc1NTQwNDA5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
